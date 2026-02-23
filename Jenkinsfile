@@ -18,6 +18,12 @@ pipeline {
             }
         }
 
+        stage('Build JAR') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh """
@@ -44,6 +50,16 @@ pipeline {
                 sh """
                 docker push $IMAGE_NAME:${BUILD_NUMBER}
                 docker push $IMAGE_NAME:latest
+                """
+            }
+        }
+
+        stage('Deploy Locally') {
+            steps {
+                sh """
+                docker stop jenkins-demo-app || true
+                docker rm jenkins-demo-app || true
+                docker run -d -p 8081:8080 --name jenkins-demo-app $IMAGE_NAME:${BUILD_NUMBER}
                 """
             }
         }
