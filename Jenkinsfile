@@ -3,6 +3,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = "srinion/jenkins-demo"
+        CONTAINER_NAME = "jenkins-demo-app"
+        HOST_PORT = "8082"   // change if needed
+        CONTAINER_PORT = "8080"
     }
 
     tools {
@@ -54,22 +57,22 @@ pipeline {
             }
         }
 
-        stage('Deploy Locally') {
+        stage('Deploy') {
             steps {
                 sh """
-                docker stop jenkins-demo-app || true
-                docker rm jenkins-demo-app || true
-                docker run -d -p 8081:8080 --name jenkins-demo-app $IMAGE_NAME:${BUILD_NUMBER}
+                docker rm -f $CONTAINER_NAME || true
+                docker run -d \
+                  --name $CONTAINER_NAME \
+                  --restart unless-stopped \
+                  -p $HOST_PORT:$CONTAINER_PORT \
+                  $IMAGE_NAME:latest
                 """
             }
         }
 
-        stage('Deploy Container') {
+        stage('Show Running Containers') {
             steps {
-                sh """
-                docker rm -f jenkins-demo-app || true
-                docker run -d --name jenkins-demo-app -p 8081:8080 $IMAGE_NAME:latest
-                """
+                sh 'docker ps'
             }
         }
     }
