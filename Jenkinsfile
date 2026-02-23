@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "srinion/jenkins-demo"
         CONTAINER_NAME = "jenkins-demo-app"
-        HOST_PORT = "8082"   // change if needed
+        HOST_PORT = "8090"   // change if needed
         CONTAINER_PORT = "8080"
     }
 
