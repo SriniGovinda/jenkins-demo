@@ -63,5 +63,14 @@ pipeline {
                 """
             }
         }
+
+        stage('Deploy Container') {
+            steps {
+                sh """
+                docker rm -f jenkins-demo-app || true
+                docker run -d --name jenkins-demo-app -p 8081:8080 $IMAGE_NAME:latest
+                """
+            }
+        }
     }
 }
