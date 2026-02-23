@@ -17,7 +17,7 @@
  <properties>
    <java.version>21</java.version>
  </properties>
-
+<!--Jenkins test-->
  <dependencies>
    <dependency>
      <groupId>org.springframework.boot</groupId>
