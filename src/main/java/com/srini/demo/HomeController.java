@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Jenkins CD working ✅";
+        return "Jenkins CI/CD working ✅";
     }
 }
